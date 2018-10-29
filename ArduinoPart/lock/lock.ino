@@ -6,25 +6,8 @@
 //OKI
 
 //P.S Theres a lot of commented debugging. I had to rewrite the whole script and i really didn't wanna go trought the trouble of deleting it
-/*    if(myservo.read() >= 0 and myservo.read() <= 45){
-        openDoor();
-    }
-    else if(myservo.read() <= 130 and myservo.read() > 45){
-        closeDoor();
-    }*/
-/*void reset(){   //resets everything. Runs when the code is wrong
-    
-    for(int x = 0; x < CODELENGTH; x++){  //clears code
-        code[x] = 0;
-        //realcode[x] = 0;
-    }
-    codeDone = false;               //resets code done
-    right = false;
-    digitalWrite(REDLEDPIN, HIGH);
-    delay(1000);
-    digitalWrite(REDLEDPIN, LOW);
-    generateNewCode();
-}*/
+
+
 //pin numbers
 #include "Servo.h"
 Servo myservo;
@@ -102,8 +85,20 @@ void generateNewCode(){  //generates new code
 }
 
 //ˇˇfound this little script on http://forum.arduino.cc/index.php/topic,42205.0.html
-void reset() // Restarts program from beginning but does not reset the peripherals and registers
-{
+void reset(){ // Restarts program from beginning but does not reset the peripherals and registers
+
+    digitalWrite(REDLEDPIN, HIGH);
+    delay(200);
+    digitalWrite(REDLEDPIN, LOW);
+    delay(200);
+    digitalWrite(REDLEDPIN, HIGH);                   //<<DAMN UGLY light blink
+    delay(200);
+    digitalWrite(REDLEDPIN, LOW);
+    delay(200);
+    digitalWrite(REDLEDPIN, HIGH);
+    delay(200);
+    digitalWrite(REDLEDPIN, LOW);
+    delay(200);
     asm volatile ("  jmp 0");  
 }  
 void addPress(int button){ //adds button press to the code array
@@ -137,7 +132,15 @@ bool detectIfRight(){ //detects if code is right
     right = true;
 }
 void lastStep(){  //what happenes when you enter the write code
-    Serial.println("right done shit");
+    digitalWrite(GREENLEDPIN, HIGH);
+    if(DetectButtonPress() != 7){
+        if(myservo.read() >= 0 and myservo.read() <= 45){
+            openDoor();
+        }
+        else if(myservo.read() <= 130 and myservo.read() > 45){
+            closeDoor();
+        }
+    }
 }
 
 void loop(){
