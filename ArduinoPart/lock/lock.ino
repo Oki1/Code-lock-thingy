@@ -79,7 +79,7 @@ int DetectButtonPress() {  //Detects button press
 void loop(){
     int change = DetectButtonPress();
     if(change != sizee + 1){
-        Serial.println(change);
+        Serial.println(change); 
     }
 }
 
